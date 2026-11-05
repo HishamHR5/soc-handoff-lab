@@ -1,0 +1,3 @@
+# Install the package, the development tools and the Propagation Viewer:
+#   pip install -r requirements.txt
+-e .[dev,viewer]

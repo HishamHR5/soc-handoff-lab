@@ -1,0 +1,38 @@
+# ---------------------------------------------------------------
+#  Settings. Change these, not the code.
+#  Keys that are not here get the defaults in src/soclab/config.py.
+#  API keys are NOT here. Put them in .env (see .env.example).
+# ---------------------------------------------------------------
+llm:
+  # fake          = no model; a scripted "gullible" agent to test the plumbing
+  # openai_compat = Ollama, vLLM, LM Studio (set base_url)   ("ollama" and "vllm" also work)
+  # openai        = OpenAI API          (key: OPENAI_API_KEY)
+  # anthropic     = Claude API          (key: ANTHROPIC_API_KEY), e.g. claude-haiku-5-5, claude-sonnet-5-5
+  # gemini        = Google Gemini API   (key: GEMINI_API_KEY)
+  backend: fake
+  model: fake-gullible
+  base_url: null              # null = default. Ollama: http://localhost:11434/v1
+  temperature: 0.0            # null = do not send. Claude: never sent (API version 2026-10-21).
+  max_tokens: 1024
+  seed: null                  # sent to backends that support it (openai_compat, openai, gemini)
+  requests_per_minute: 0      # 0 = no limit
+  price_in_per_mtok: null     # USD per 1M tokens, for the cost metric. null = unknown.
+  price_out_per_mtok: null
+  cache:
+    enabled: false            # true = save each answer in .cache/llm and reuse it
+
+pipeline:
+  topology: chain             # chain | hub | debate
+  evidence_tool_mode: fixed   # fixed (siem_search, then ip_reputation) | llm (the model chooses)
+
+defense:
+  name: none                  # none | guard_v0 | llm_tagging | layered | guard_v1
+
+action_guard:
+  enabled: false              # true = per-agent tool allowlist + default-deny network egress
+
+laundering:
+  methods: [keywords]         # keywords | embedding | llm_judge
+
+phoenix:
+  enabled: false              # true = send traces to Phoenix (http://localhost:6006)

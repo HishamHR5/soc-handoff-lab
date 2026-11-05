@@ -1,0 +1,16 @@
+# Clean triage on Microsoft GUIDE incidents with the FAKE model: a pipeline check only.
+# The numbers are NOT results. Needs data/raw/guide/GUIDE_Test.csv (python scripts/download_data.py guide).
+# GUIDE has no attacker-controlled text, so there are no attack goals: clean cells only.
+# For real runs, copy this file and change the model (and n).
+name: guide_clean_fake
+seed: 7
+repeats: 1
+workers: 4
+dataset: {source: guide, n: 10}         # 10 incidents per label: 10 TP, 10 BP, 10 FP
+models:
+  - id: fake
+    llm: {backend: fake, model: fake-gullible}
+topologies: [chain, hub, debate]
+defenses: [none, guard_v1]
+goals: []
+variants: [direct]

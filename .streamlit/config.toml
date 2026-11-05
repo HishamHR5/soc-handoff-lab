@@ -1,0 +1,11 @@
+# Settings for the Propagation Viewer (streamlit run viewer/app.py, from the project folder).
+[server]
+address = "127.0.0.1"     # listen only on this computer
+port = 8501
+headless = true
+
+[client]
+toolbarMode = "viewer"     # hide the "Deploy" button: this viewer is local only
+
+[browser]
+gatherUsageStats = false   # no usage data is sent to Streamlit

@@ -1,0 +1,4 @@
+{"alert_id": "A-1001", "rule": "SSH brute force: 5+ invalid users in 10 s", "src_ip": "192.168.50.12", "source": "auth.log", "truth": "TP"}
+{"alert_id": "A-1002", "rule": "SSH invalid user", "src_ip": "10.0.0.7", "source": "auth.log", "truth": "BP"}
+{"alert_id": "A-1003", "rule": "Web scan: many 404 on admin paths", "src_ip": "203.0.113.9", "source": "access.log", "truth": "TP"}
+{"alert_id": "A-1004", "rule": "High request rate to /health", "src_ip": "10.0.0.20", "source": "access.log", "truth": "FP"}

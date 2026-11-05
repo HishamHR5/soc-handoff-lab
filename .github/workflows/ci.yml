@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev,viewer]"
+      - name: Lint (ruff)
+        run: ruff check .
+      - name: Types (mypy)
+        run: mypy src
+      - name: Tests (pytest, coverage >= 85%)
+        # No test needs internet or an API key. tests/conftest.py blocks non-local connections.
+        run: pytest -q --cov=soclab --cov-report=term-missing
+      - name: Fake experiment smoke run (1 alert per cell)
+        run: |
+          python scripts/run_experiment.py experiments/smoke_fake.yaml --max-alerts 1 --workers 4
+          python scripts/validate_trace.py runs/smoke_fake
+          python scripts/analyze.py runs/smoke_fake --out results/smoke_fake --n-boot 200

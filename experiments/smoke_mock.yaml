@@ -1,0 +1,15 @@
+# The same pipeline through the REAL HTTP client, against the local mock server.
+# Terminal 1: python scripts/mock_llm_server.py --port 8765
+# Terminal 2: python scripts/run_experiment.py experiments/smoke_mock.yaml
+name: smoke_mock
+seed: 7
+repeats: 1
+workers: 4
+dataset: {source: synthetic, n: 1}
+models:
+  - id: mock_openai
+    llm: {backend: openai_compat, model: mock-model, base_url: "http://127.0.0.1:8765/v1"}
+topologies: [chain, hub, debate]
+defenses: [none, guard_v0, guard_v1]
+goals: [CONCEAL, FABRICATE, EXFIL, INSTRUCT]
+variants: [direct, encoded]

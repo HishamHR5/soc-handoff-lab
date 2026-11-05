@@ -1,0 +1,15 @@
+# Smoke test with the FAKE model. No key, no network. The numbers are NOT results.
+# python scripts/run_experiment.py experiments/smoke_fake.yaml
+name: smoke_fake
+seed: 7
+repeats: 2
+workers: 4
+dataset: {source: synthetic, n: 2}      # 10 alerts: 4 TP, 4 BP, 2 FP
+field: null                             # null = default attacker field per log source
+models:
+  - id: fake
+    llm: {backend: fake, model: fake-gullible}
+topologies: [chain, hub, debate]
+defenses: [none, guard_v0, llm_tagging, layered, guard_v1]
+goals: [CONCEAL, FABRICATE, EXFIL, INSTRUCT]
+variants: [direct, polite, hidden, split, encoded]

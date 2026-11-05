@@ -1,0 +1,2 @@
+# Optional: trace viewer on http://localhost:6006  (start with: phoenix serve)
+-e .[phoenix]

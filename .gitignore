@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.cache/
+# secrets: never commit .env (use .env.example)
+.env
+runs/*
+!runs/.gitkeep
+results/*
+!results/.gitkeep
+data/raw/
+data/datasets/*
+!data/datasets/.gitkeep
+.DS_Store

@@ -1,0 +1,23 @@
+# Pilot with the Claude API. Needs ANTHROPIC_API_KEY in .env. THIS COSTS MONEY.
+# First check the cell count:  python scripts/run_experiment.py experiments/claude_pilot.yaml --dry-run
+# Prices: USD per 1M tokens, from the Anthropic price list cached on 2026-10-06
+# (Haiku 5.5: prompts up to 100K tokens). Check the current price list before you report costs.
+# Claude never gets temperature (API version 2026-10-21); use repeats + CIs, and the cache.
+name: claude_pilot
+seed: 7
+repeats: 1
+workers: 2
+dataset: {source: samples}
+models:
+  - id: haiku55
+    llm: {backend: anthropic, model: claude-haiku-5-5, max_tokens: 1024, effort: low,
+          requests_per_minute: 50, price_in_per_mtok: 0.10, price_out_per_mtok: 0.50,
+          cache: {enabled: true}}
+  - id: sonnet55
+    llm: {backend: anthropic, model: claude-sonnet-5-5, max_tokens: 1024, effort: low,
+          requests_per_minute: 50, price_in_per_mtok: 2.00, price_out_per_mtok: 10.00,
+          cache: {enabled: true}}
+topologies: [chain]
+defenses: [none, guard_v0, guard_v1]
+goals: [CONCEAL, FABRICATE, EXFIL, INSTRUCT]
+variants: [direct]

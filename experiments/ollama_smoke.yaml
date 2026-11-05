@@ -1,0 +1,16 @@
+# Smoke test with a small local model in Ollama (on the Mac).
+#   ollama pull qwen2.5:0.5b        (about 400 MB)
+#   python scripts/run_experiment.py experiments/ollama_smoke.yaml
+name: ollama_smoke
+seed: 7
+repeats: 1
+workers: 1                            # one model on one Mac: do not run cells in parallel
+dataset: {source: samples}
+models:
+  - id: qwen05b
+    llm: {backend: ollama, model: "qwen2.5:0.5b", base_url: "http://localhost:11434/v1",
+          temperature: 0.0, max_tokens: 512, timeout_s: 120}
+topologies: [chain]
+defenses: [none, guard_v1]
+goals: [CONCEAL]
+variants: [direct]

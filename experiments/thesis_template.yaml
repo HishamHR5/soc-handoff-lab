@@ -1,0 +1,23 @@
+# Template for the main thesis runs. Copy it, then change models and the dataset.
+# Cells = models x topologies x defenses x (1 clean + goals x variants).
+name: thesis_main
+seed: 7
+repeats: 5                       # temperature > 0 (or Claude) needs repeats for the CIs
+workers: 4
+dataset:
+  source: synthetic              # or: aitlds (see scripts/download_data.py aitlds), loghub_openssh
+  n: 10
+  max_alerts: 60
+field: null                      # or: ssh_username, user_agent, url_path, query_string, referer
+models:
+  - id: llama31_8b
+    llm: {backend: vllm, model: meta-llama/Llama-3.1-8B-Instruct, base_url: "http://<gpu-server>:8000/v1",
+          temperature: 0.7, cache: {enabled: true}}
+topologies: [chain, hub, debate]
+defenses: [none, guard_v0, llm_tagging, layered, guard_v1]
+goals: [CONCEAL, FABRICATE, EXFIL, INSTRUCT]
+variants: [direct, polite, hidden, split, encoded]
+settings:                        # overrides of config/settings.yaml for all cells
+  pipeline: {evidence_tool_mode: fixed}
+  laundering: {methods: [keywords]}       # add: embedding (pip install -e '.[embeddings]')
+  action_guard: {enabled: false}
